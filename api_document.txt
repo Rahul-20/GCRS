@@ -1,0 +1,159 @@
+SAVE Truck
+====================
+
+http://localhost:9090/truck
+Method : POST
+
+Request:
+
+{
+  "updatedDate": "2017-11-26",
+  "status": "ACTIVE",
+  "locationCode": "locationCode123",
+  "transportAgent": "transportAgent123",
+  "vehicleManufacturer": "vehicleManufacturer123",
+  "vehicleModel": "vehicleModel123",
+  "vehicleName": "vehicleName123",
+  "vehicleNo": "vehicleNo123",
+  "vehicleType": "BIG",
+  "barCode": "TK123",
+  "barCodeText": "123",
+  "barCodeUrl": "/img/barcode/b1.jpg"
+}
+
+Response: 
+{
+    "code": 200,
+    "message": "Truck object created successfully , Object Id is 1",
+    "id": "1"
+}
+
+
+------------------------
+
+SAVE Bin
+====================
+
+
+http://localhost:9090/bin
+Method : POST
+
+Request:
+
+{
+  "installedDate": "2017-09-26",
+  "status": "ACTIVE",
+  "uniqueIdentifier": "locationCode123",
+  "wasteType": "GREASE",
+  "wasteOrigin": "vehicleManufacturer123",
+  "binManufacturer": "binManufacturer",
+  "binModel": "binModel",
+  "binType": "NORMAL",
+  "binCapacity": "20.0",
+  "serviceFrequency": "1",
+  "decommissionedDate": "2017-10-26",
+  "lastServiceDate": "2017-11-16",
+  "nextServiceDate": "2017-11-30",
+  "physicalAddress": "physicalAddress",
+  "email": "email@gmail.com",
+  "latitude": "12345.34344",
+  "longitude": "235466.3436",
+  "notes": "notes",
+  "locationDescription": "locationDescription1",
+  "transporter": "Vaolva transporter",
+  "wasteGenerator": "wasteGenerator",
+  "barCode": "BN123",
+  "barCodeText": "123",
+  "barCodeUrl": "/img/barcode/bin1.jpg"
+}
+
+Response:
+
+{
+    "code": 200,
+    "message": "Bin object created successfully , Object Id is 2",
+    "id": "2"
+}
+
+
+=====================================================================================================
+
+To get Truck or BIN data based on BAR Code, use this service call
+
+URL: http://localhost:9090/read-bar-code?barCode=<truck / bin bar code>
+
+------------------------------------------------------------------------------
+
+Example 1:
+
+For truck , truck bar code is TK123
+
+URL: http://localhost:9090/read-bar-code?barCode=TK123
+Method: GET
+
+Response : 
+
+{
+    "truckDetails": {
+        "id": 1,
+        "updatedDate": "2017-11-16",
+        "locationCode": "locationCode123",
+        "status": "ACTIVE",
+        "transportAgent": "transportAgent123",
+        "vehicleManufacturer": "vehicleManufacturer123",
+        "vehicleModel": "vehicleModel123",
+        "vehicleName": "vehicleName123",
+        "vehicleNo": "vehicleNo123",
+        "vehicleType": "BIG",
+        "barCode": "TK123",
+        "barCodeText": "123",
+        "barCodeUrl": "/img/barcode/b1.jpg"
+    }
+}
+
+----------------------------------------------------------------------------
+
+Example 2:
+
+For bin , bin bar code is BN123
+
+URL: http://localhost:9090/read-bar-code?barCode=BN123
+Method: GET
+
+http://localhost:9090/read-bar-code?barCode=BN123
+
+Response:
+
+
+{
+    "binDetails": {
+        "id": 2,
+        "uniqueIdentifier": "locationCode123",
+        "status": "ACTIVE",
+        "binType": "NORMAL",
+        "wasteType": "GREASE",
+        "wasteOrigin": "vehicleManufacturer123",
+        "binManufacturer": "binManufacturer",
+        "binModel": "binModel",
+        "binCapacity": 20,
+        "serviceFrequency": 1,
+        "installedDate": "2017-09-26",
+        "decommissionedDate": "2017-10-26",
+        "lastServiceDate": "2017-11-16",
+        "nextServiceDate": "2017-11-30",
+        "physicalAddress": "physicalAddress",
+        "email": "email@gmail.com",
+        "latitude": "12345.34344",
+        "longitude": "235466.3436",
+        "locationDescription": "locationDescription1",
+        "notes": "notes",
+        "transporter": "Vaolva transporter",
+        "wasteGenerator": "wasteGenerator",
+        "barCode": "BN123",
+        "barCodeText": "123",
+        "barCodeUrl": "/img/barcode/bin1.jpg"
+    }
+}
+
+
+

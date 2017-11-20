@@ -1,0 +1,9 @@
+CREATE DATABASE gcdb;
+
+GRANT USAGE, SELECT ON *.* TO 'gcuser'@localhost IDENTIFIED BY 'user123' with grant option;
+GRANT ALL ON gcdb.* TO 'gcuser'@localhost;
+GRANT FILE ON *.* TO 'gcuser'@localhost;
+FLUSH PRIVILEGES;
+
+GRANT ALL PRIVILEGES ON *.* TO 'gcuser'@'localhost' IDENTIFIED BY 'user123' WITH GRANT OPTION;
+

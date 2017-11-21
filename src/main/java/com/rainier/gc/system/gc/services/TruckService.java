@@ -8,5 +8,5 @@ public interface TruckService  extends GenericEntityService<Long, Truck>{
 
 	Truck findTruckByBarCode(String barCode);
 
-	boolean saveOrUpdate(Truck truck,String typeOfBarcode,String truckNum) throws ServiceException;
+	void saveOrUpdate(Truck truck,String typeOfBarcode,String truckNum) throws ServiceException;
 }

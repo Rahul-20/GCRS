@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.SynthesizedAnnotation;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -40,31 +41,21 @@ public class DustBinServiceImpl extends GenericrEntityServiceImpl<Long, DustBin>
 
 	@Override
 	@Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRES_NEW,rollbackFor=ServiceException.class)
-	public boolean saveOrUpdate(DustBin dustBin,String typeOfBarcode) throws ServiceException
+	public void saveOrUpdate(DustBin dustBin,String typeOfBarcode) throws ServiceException
 	{
 		try
 		{
 			this.save(dustBin);
-
 			String barCodeNum=BarcodeGeneratorUtil.uniqueNumberGeneration(String.valueOf(dustBin.getId()),typeOfBarcode,"");
-
-			String basePath="C:\\Users\\erapami\\Desktop\\Projects\\GCSS\\";
-			
-			String barCodeImageName=BarcodeGeneratorUtil.createFileName(basePath,barCodeNum,typeOfBarcode);
-
-			BitMatrix bitMatrix=BarcodeGeneratorUtil.generateBarCode(barCodeNum,typeOfBarcode);
-
-			BarcodeGeneratorUtil.writeGeneratedBarToFileSystem(bitMatrix,barCodeNum,barCodeImageName,typeOfBarcode);
-			
+			String barcodeImgUrl=BarcodeGeneratorUtil.generateBarcode(barCodeNum,typeOfBarcode);
 			DustBin updateBinDetails=this.getById(dustBin.getId());
 			updateBinDetails.setBarCode(barCodeNum);
-			updateBinDetails.setBarCodeImage(basePath);
+			updateBinDetails.setBarCodeImage(barcodeImgUrl);
 			this.update(updateBinDetails);
 		}
 		catch(Exception e)
 		{
 			throw new ServiceException("Failed to generate barcode!!!");
 		}
-		return true;
 	}
 }

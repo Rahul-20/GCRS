@@ -36,30 +36,21 @@ public class TruckServiceImpl extends GenericrEntityServiceImpl<Long, Truck> imp
 
 	@Override
 	@Transactional(isolation=Isolation.READ_COMMITTED,propagation=Propagation.REQUIRES_NEW,rollbackFor=ServiceException.class)
-	public boolean saveOrUpdate(Truck truck, String typeOfBarcode,String truckNum) throws ServiceException {
+	public void saveOrUpdate(Truck truck, String typeOfBarcode,String truckNum) throws ServiceException {
 		try
 		{
 			this.save(truck);
-
 			String barCodeNum=BarcodeGeneratorUtil.uniqueNumberGeneration(String.valueOf(truck.getId()),typeOfBarcode,truckNum);
-
-			String basePath="C:\\Users\\erapami\\Desktop\\Projects\\GCSS\\";
-			
-			String barCodeImageName=BarcodeGeneratorUtil.createFileName(basePath,barCodeNum,typeOfBarcode);
-
-			BitMatrix bitMatrix=BarcodeGeneratorUtil.generateBarCode(barCodeNum,typeOfBarcode);
-
-			BarcodeGeneratorUtil.writeGeneratedBarToFileSystem(bitMatrix,barCodeNum,barCodeImageName,typeOfBarcode);
+			String barcodeImgUrl=BarcodeGeneratorUtil.generateBarcode(barCodeNum,typeOfBarcode);			
 			
 			Truck updateTruckDetails=this.getById(truck.getId());
 			updateTruckDetails.setBarCode(barCodeNum);
-			updateTruckDetails.setBarCodeImage(basePath);
+			updateTruckDetails.setBarCodeImage(barcodeImgUrl);
 			this.update(updateTruckDetails);
 		}
 		catch(Exception e)
 		{
 			throw new ServiceException("Failed to generate barcode!!!");
 		}
-		return true;
 	}
 }

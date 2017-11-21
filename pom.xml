@@ -6,7 +6,7 @@
 	<groupId>com.rainier.gc.system</groupId>
 	<artifactId>gc</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 
 	<name>gc</name>
 	<description>Demo project for Spring Boot</description>
@@ -46,7 +46,7 @@
 
 		<!-- <dependency> <groupId>com.h2database</groupId> <artifactId>h2</artifactId> 
 			</dependency> -->
-		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -73,6 +73,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>gc</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>

@@ -13,28 +13,37 @@ import com.google.zxing.oned.Code128Writer;
 
 public class BarcodeGeneratorUtil 
 {
+	public static String generateBarcode(String barcodeNum,String typeOfBarcode) throws IOException, WriterException
+	{
+		String basePath="/opt/gcs/img/";
+		String barCodeImageName=createFileName(basePath,barcodeNum,typeOfBarcode);
+		BitMatrix bitMatrix=BarcodeGeneratorUtil.createBarCode(barcodeNum,typeOfBarcode);
+		BarcodeGeneratorUtil.writeGeneratedBarToFileSystem(bitMatrix,barcodeNum,barCodeImageName,typeOfBarcode);
+		return basePath+barCodeImageName;
+	}
+
 	public static String uniqueNumberGeneration(String id,String typeOfBarcode,String truckNum)
 	{
-		if(typeOfBarcode.equals("Truck"))
+		if(typeOfBarcode.equalsIgnoreCase("Truck"))
 		{
 			String uniqueNum="TK"+id+"00000"+truckNum;
 			return uniqueNum;
 		}
-		else if(typeOfBarcode.equals("Bin"))
+		else if(typeOfBarcode.equalsIgnoreCase("Bin"))
 		{
 			String uniqueNum="BN00000"+id;
 			return uniqueNum;
 		}
 		return "";
 	}
-	
+
 	public static String createFileName(String basePath,String barCodeNum,String type)
 	{
 		String fileName="BC_"+barCodeNum+"_"+type;
 		return basePath+type+"//"+fileName+".png";
 	}
 
-	public static BitMatrix generateBarCode(String barCodeNum,String type) throws IOException, WriterException
+	public static BitMatrix createBarCode(String barCodeNum,String type) throws IOException, WriterException
 	{
 		BitMatrix bitMatrix = new Code128Writer().encode(barCodeNum, BarcodeFormat.CODE_128, 150, 80);
 		return bitMatrix;
@@ -42,8 +51,19 @@ public class BarcodeGeneratorUtil
 
 	public static void writeGeneratedBarToFileSystem(BitMatrix bitMatrix,String barCodeNum,String fileName,String type) throws IOException
 	{
-		OutputStream out=new FileOutputStream(new File(fileName));
-		MatrixToImageWriter.writeToStream(bitMatrix,"png",out);
+		OutputStream out=null;
+		try
+		{
+			out=new FileOutputStream(new File(fileName));
+			MatrixToImageWriter.writeToStream(bitMatrix,"png",out);
+		}
+		finally
+		{
+			if(null!=out)
+			{
+				out.close();
+			}
+		}
 	}
 
 	/*public static void readBarCodeUsingZxing() throws NotFoundException, ChecksumException, FormatException, IOException

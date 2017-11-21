@@ -41,6 +41,7 @@ public class AdminController
 		BarcodeGenerationResponse response = new BarcodeGenerationResponse();
 		CreateBinDataPopulator populator = new CreateBinDataPopulator();
 		DustBin  bin = populator.populate(binRequest);
+		System.out.println("Bin......"+bin);
 		dustBinService.saveOrUpdate(bin,binRequest.getTypeOfBarcode());
 		response.setCode(200);
 		response.setId(bin.getId().toString());

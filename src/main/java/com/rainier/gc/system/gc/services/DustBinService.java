@@ -8,6 +8,5 @@ public interface DustBinService extends GenericEntityService<Long, DustBin>{
 
 	DustBin findBinByBarCode(String barCode);
 
-	boolean saveOrUpdate(DustBin dustBin,String typeOfBarcode) throws ServiceException;
+	void saveOrUpdate(DustBin dustBin,String typeOfBarcode) throws ServiceException;
 }
-
